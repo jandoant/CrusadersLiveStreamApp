@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Crusaders LiveStream</string>
+    <string name="twitter_key">auGACOKWN30mo7CvA1zEDsepl</string>
+    <string name="twitter_secret">o0ATvvqaDA81gMPhmcneWYNR90pOoKeN3apLuFBsWj04PO2G1A</string>
+
+
+    <string name="optionsmenu_twitter_logout">LogOut</string>
+    <string name="btn_submit">Absenden</string>
+    <string name="chkBox_training_CRU">CRU</string>
+    <string name="chkBox_training_VAR">VAR</string>
+    <string name="chkBox_training_CLM">CLM</string>
+    <string name="chkBox_training_FK">FK</string>
+
+    <!--Inhalt des Toolbar-Spinners-->
+    <string-array name="chemnitz_teams_array">
+        <item>Crusaders</item>
+        <item>Varlets</item>
+        <item>Claymores</item>
+    </string-array>
+
+    <!--Inhalt des Team-Auswahl Spinners -->
+    <!--CRUSADERS-->
+    <string-array name="crusaders_opponents_array">
+        <item>Bitte Team auswählen</item>
+        <item>Chemnitz Crusaders</item>
+        <item>Radebeul Suburbian Foxes</item>
+        <item>Jenaer Hanfrieds</item>
+        <item>Erfurt Indigos</item>
+        <item>Spandau Bulldogs</item>
+        <item>Berlin Thunderbirds</item>
+        <item>Magdeburg Virin Guards</item>
+    </string-array>
+    <!--VARLETS-->
+    <string-array name="varlets_opponents_array">
+        <item>Bitte Team auswählen</item>
+        <item>Chemnitz Varlets</item>
+        <item>Radebeul Suburbian Foxes</item>
+        <item>Jenaer Hanfrieds</item>
+        <item>Erfurt Indigos</item>
+        <item>Spandau Bulldogs</item>
+        <item>Berlin Thunderbirds</item>
+        <item>Magdeburg Virin Guards</item>
+    </string-array>
+    <!--CLAYMORES-->
+    <string-array name="claymores_opponents_array">
+        <item>Bitte Team auswählen</item>
+        <item>Chemnitz Claymores</item>
+        <item>Radebeul Suburbian Foxes</item>
+        <item>Jenaer Hanfrieds</item>
+        <item>Erfurt Indigos</item>
+        <item>Spandau Bulldogs</item>
+        <item>Berlin Thunderbirds</item>
+        <item>Magdeburg Virin Guards</item>
+    </string-array>
+
+
+</resources>
