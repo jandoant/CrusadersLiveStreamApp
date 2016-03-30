@@ -117,7 +117,6 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         spinner_home.setOnItemSelectedListener(this);
     }
 
-
     @Override
     public void onClick(View view) {
 
@@ -141,6 +140,7 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         if (gameDate != null && gameTime != null && team_home != opponents[0] && team_away != opponents[0]) {
             Log.d("TEAMS", "Spiel wurde erstellt");
             Toast.makeText(CreateGameActivity.this, "Spiel wurde erstellt", Toast.LENGTH_SHORT).show();
+            //ToDo: Datenbankzugriff und schreiben in diese, nach Erstellung Wechsel in den Create-Play-Bereich
         }
     }
 
@@ -152,8 +152,15 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 //--Eingabe des Users im Datum speichern
                 gameDate = new LocalDate().withYear(year).withMonthOfYear(month + 1).withDayOfMonth(day);
-                tv_date.setText(gameDate.toString());
-                //sofort danach TimePicker zeigen
+                //--nach Auswahl Anzeige in TextViews
+                String strYear, strMonth, strDay, strAusgabe;
+                strYear = String.valueOf(gameDate.getYear());
+                strMonth = String.valueOf(gameDate.getMonthOfYear());
+                strDay = String.valueOf(gameDate.getDayOfMonth());
+                strAusgabe = strDay + "." + strMonth + "." + strYear;
+                tv_date.setText(strAusgabe);
+
+                //--sofort danach TimePicker zeigen
                 showTimePickerDialog();
             }
         }, nowDate.getYear(), nowDate.getMonthOfYear() - 1, nowDate.getDayOfMonth());
@@ -165,9 +172,15 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         timepicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                //Eingabe des Users in der Uhrzeit speichern
+                //--Eingabe des Users in der Uhrzeit speichern
                 gameTime = new LocalTime().withHourOfDay(hour).withMinuteOfHour(minute);
-                tv_time.setText(gameTime.toString());
+
+                //--nach Eingabe Anzeige in TextView
+                String strStunde, strMinute, strAusgabe;
+                strStunde = String.valueOf(gameTime.getHourOfDay());
+                strMinute = String.valueOf(gameTime.getMinuteOfHour());
+                strAusgabe = strStunde + ":" + strMinute + " Uhr";
+                tv_time.setText(strAusgabe);
             }
         }, nowDate.getHourOfDay(), nowDate.getMinuteOfHour(), true);
         timepicker.show();
