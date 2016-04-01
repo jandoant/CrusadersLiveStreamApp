@@ -21,6 +21,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tv_games"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Noch keine Spiele vorhanden" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_creategame_main"
             android:layout_width="wrap_content"
@@ -35,6 +41,8 @@
 
 
     </RelativeLayout>
+
+
 </android.support.design.widget.CoordinatorLayout>
 
 

@@ -6,4 +6,9 @@
         android:id="@+id/twitter_logout"
         android:title="@string/optionsmenu_twitter_logout"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/twitter_clearGameTable"
+        android:title="@string/optionsmenu_clear_gametable"
+        app:showAsAction="never" />
+
 </menu>

@@ -16,17 +16,21 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
+
+import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
+import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 public class CreateGameActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
+    private static final String CLASS_NAME = "CreateGameActivity";
+    private final String TAG = "LiveStream";
     //UI
     Toolbar toolbar;
-    Button btn_date, btn_time, btn_createGame;
+    Button btn_date;
+    Button btn_Date, btn_time, btn_createGame;
     DatePickerDialog datepicker;
     TimePickerDialog timepicker;
     TextView tv_date, tv_time;
@@ -34,12 +38,15 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
     int spinnerCounter;
 
     //Daten
+    //--Spinner
     ArrayAdapter<CharSequence> spinnerOpponentsAdapter;
-
+    ArrayAdapter<CharSequence> spinnerToolbarAdapter;
     String team_away;
     String team_home;
     String[] opponents;
-    String[] teamsChemnitz;
+    int SpinnerCounter;
+    //Datenbank
+    LiveStreamDB db;
 
     //Datum und Zeit
     DateTime nowDate;
@@ -52,8 +59,12 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-
+        spinnerCounter = 0;
+        //Datenbankzugriff herstellen
+        db = new LiveStreamDB(this, null, null, 1);
+        //UI
         setUpUI();
+
         gameTime = null;
         gameDate = null;
 
@@ -85,8 +96,6 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         btn_date = (Button) findViewById(R.id.btn_date_creategame);
         btn_time = (Button) findViewById(R.id.btn_time_creategame);
         btn_createGame = (Button) findViewById(R.id.btn_submit_creategame);
-        //--Aktivierbarkeit
-
         //--onClick-Registration
         btn_date.setOnClickListener(this);
         btn_time.setOnClickListener(this);
@@ -102,7 +111,7 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         spinner_away = (Spinner) findViewById(R.id.spinner_away_creategame);
         spinner_home = (Spinner) findViewById(R.id.spinner_home_creategame);
         //--Array Adapter mit Daten füllen
-        ArrayAdapter<CharSequence> spinnerToolbarAdapter = ArrayAdapter.createFromResource(this, R.array.chemnitz_teams_array, android.R.layout.simple_spinner_item);
+        spinnerToolbarAdapter = ArrayAdapter.createFromResource(this, R.array.chemnitz_teams_array, android.R.layout.simple_spinner_item);
         spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.crusaders_opponents_array, android.R.layout.simple_spinner_item);
         //--Dropdown Layout
         spinnerToolbarAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -117,7 +126,9 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         spinner_home.setOnItemSelectedListener(this);
     }
 
+
     @Override
+
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -129,6 +140,7 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.btn_submit_creategame:
                 createGame();
+
                 break;
             default:
                 break;
@@ -138,9 +150,12 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
     private void createGame() {
         //prüfen, ob alle Felder ausgefüllt wurden
         if (gameDate != null && gameTime != null && team_home != opponents[0] && team_away != opponents[0]) {
-            Log.d("TEAMS", "Spiel wurde erstellt");
-            Toast.makeText(CreateGameActivity.this, "Spiel wurde erstellt", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, CLASS_NAME + ": Spiel kann erstellt werden");
             //ToDo: Datenbankzugriff und schreiben in diese, nach Erstellung Wechsel in den Create-Play-Bereich
+            Game myGame = new Game(gameDate, gameTime, team_home, team_away);
+            db.addGame(myGame);
+            db.close();
+            finish();
         }
     }
 
@@ -184,14 +199,11 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
             }
         }, nowDate.getHourOfDay(), nowDate.getMinuteOfHour(), true);
         timepicker.show();
-
-
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        Log.d("TEAMS", "onItemSelected()");
-
         switch (adapterView.getId()) {
             //Auswahl Heimteam
             case R.id.spinner_home_creategame:
@@ -251,13 +263,12 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
             default:
                 break;
         }
-        Log.d("TEAMS", "Home= " + team_home + " Away= " + team_away);
     }
 
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        return;
+        //Interface Method Auto-generated
     }
 
     @Override

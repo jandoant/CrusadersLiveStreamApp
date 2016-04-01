@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
+import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;
@@ -20,6 +24,8 @@ import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.models.Tweet;
 import com.twitter.sdk.android.core.services.StatusesService;
+
+import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -33,28 +39,49 @@ import io.fabric.sdk.android.Fabric;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    /*
-    ### Twitter API APP-Keys ###
-    niemals löschen oder veröffentlichen
-    */
+
+    //Twitter
     private static final String TWITTER_KEY = "auGACOKWN30mo7CvA1zEDsepl";
     private static final String TWITTER_SECRET = "o0ATvvqaDA81gMPhmcneWYNR90pOoKeN3apLuFBsWj04PO2G1A";
-
-    //Twitter-Session
+    private final String TAG = "LiveStream";
+    private final String CLASS_NAME = "MainActivity";
     TwitterSession jdActiveTwitterSession;
-    /*
-    ###################
-    ### UI-Elemente ###
-    ###################
-    */
-    //Toolbar
+    //UI
     Toolbar toolbar;
-    //Buttons
     FloatingActionButton fab_createNewGame;
+    TextView tv_games;
+    //Daten
+    //--Datenbank
+    LiveStreamDB db;
+    //--Recycler View
+    ArrayList<Game> gameArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setUpUI();
+
+
+        /*
+        //Twitter-Login + SetUpUI()
+        manageTwitterLogin();
+        */
+
+        //Datenbankverbindung aufbauen
+        db = new LiveStreamDB(this, null, null, 1);
+        Log.d(TAG, CLASS_NAME + ": onResume()");
+        //Aktuelle Array-Liste auslesen
+
+
+    }//ENDE onCreate()
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateGameList();
+    }
+
+    private void manageTwitterLogin() {
         //Aktive Twitter Session ermitteln
         jdActiveTwitterSession = getActiveTwitterSession();
 
@@ -72,16 +99,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //es ist bereits aktive Twitter-Session vorhanden
             setUpUI();
         }
-
-    }//ENDE onCreate()
+    }
 
     private TwitterSession getActiveTwitterSession() {
         TwitterSession activeTwitterSession;
         //APP-bei Twitter und Fabric anmelden
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
-        //Activity-Layout mit XML verknüpfen
-        setContentView(R.layout.activity_main);
         //Aktuelle Twitter-Session ermitteln
         activeTwitterSession = Twitter.getSessionManager().getActiveSession();
         return activeTwitterSession;
@@ -93,11 +117,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 2. Button bei onClick-Listener registrieren
      */
     private void setUpUI() {
-
+        //Activity-Layout mit XML verknüpfen
+        setContentView(R.layout.activity_main);
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-
+        //TextView
+        tv_games = (TextView) findViewById(R.id.tv_games);
         //FAB-neues Spiel erstellen
         fab_createNewGame = (FloatingActionButton) findViewById(R.id.fab_creategame_main);
         /* Was passiert, wenn Spiel-Button gedrückt wird? */
@@ -123,14 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }//ENDE onClick()
 
-    /**
-     * ++++++++++++++++++++
-     * +++ OPTIONS MENU +++
-     * ++++++++++++++++++++
-     *
-     * @param menu
-     * @return
-     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -162,6 +181,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 */
                 finish();
                 return true;
+            case R.id.twitter_clearGameTable:
+                //Spieltabelle der DB löschen
+                db.clearDBTable(LiveStreamDB.TABLE_GAMES);
+                db.close();
             default:
                 break;
         }
@@ -203,6 +226,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }//ENDE postTweet()
+
+    private void updateGameList() {
+        gameArrayList = db.dbAllGamesDataToArray();
+    }
+
+
 
 
 }//ENDE MainActivity

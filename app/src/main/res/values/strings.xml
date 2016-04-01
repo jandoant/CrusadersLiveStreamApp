@@ -10,12 +10,13 @@
     <string name="chkBox_training_VAR">VAR</string>
     <string name="chkBox_training_CLM">CLM</string>
     <string name="chkBox_training_FK">FK</string>
+    <string name="optionsmenu_clear_gametable">alle Spiele löschen</string>
 
     <!--Inhalt des Toolbar-Spinners-->
     <string-array name="chemnitz_teams_array">
-        <item>Crusaders</item>
-        <item>Varlets</item>
-        <item>Claymores</item>
+        <item>CRUSADERS</item>
+        <item>VARLETS</item>
+        <item>CLAYMORES</item>
     </string-array>
 
     <!--Inhalt des Team-Auswahl Spinners -->

@@ -25,108 +25,172 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Neues Spiel erstellen"
+        android:textSize="32sp" />
+
     <LinearLayout
+        android:id="@+id/ll_date_time_creategame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/cardview_shadow_end_color"
+        android:layout_marginTop="0dp"
+        android:background="@color/blueGrey200"
         android:divider="@android:drawable/divider_horizontal_textfield"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <Button
-            android:id="@+id/btn_date_creategame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Spieltermin" />
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_date_creategame"
-            android:layout_width="wrap_content"
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Bitte einen Spieltermin wählen" />
+            android:layout_gravity="top|left"
+            android:layout_marginBottom="8dp"
+            android:background="@color/blueGrey100"
+            android:paddingLeft="16dp"
+            android:text="Datum und Uhrzeit"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp">
+
+            <Button
+                android:id="@+id/btn_date_creategame"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/amberA700"
+                android:text="Spieltermin"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tv_date_creategame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bitte einen Spieltermin wählen" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp">
         <Button
             android:id="@+id/btn_time_creategame"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Kickoff" />
+            android:backgroundTint="@color/lightBlueA700"
+            android:text="Kickoff"
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/tv_time_creategame"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:text="Bitte die Startzeit angeben" />
     </LinearLayout>
 
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_opponents_creategame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="72dp"
-        android:orientation="horizontal">
+        android:layout_marginTop="56dp"
+        android:layout_weight="0.12"
+        android:background="@color/blueGrey200"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:background="@color/blueGrey100"
+            android:paddingLeft="16dp"
+            android:text="Teams"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <Spinner
-                android:id="@+id/spinner_home_creategame"
-                android:layout_width="160dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:spinnerMode="dialog" />
 
-            <TextView
-                android:id="@+id/textView2"
+            <LinearLayout
+                android:id="@+id/ll_home_creategame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Heim"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_home_creategame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Heim"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_home_creategame"
+                    android:layout_width="160dp"
+                    android:layout_height="0dp"
+                    android:layout_weight=".5"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:spinnerMode="dropdown" />
+
+            </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Spinner
-                android:id="@+id/spinner_away_creategame"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="right"
-                android:layout_weight="1"
-                android:spinnerMode="dialog" />
-
-            <TextView
-                android:id="@+id/textView3"
+            <LinearLayout
+                android:id="@+id/ll_away_creategame"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Auswärts"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_away_creategame"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="right"
+                    android:text="Auswärts"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/spinner_away_creategame"
+                    android:layout_width="156dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="right"
+                    android:layout_weight=".5"
+                    android:gravity="right"
+                    android:spinnerMode="dialog" />
+
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_submit_creategame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="16dp"
         android:layout_marginTop="100dp"
         android:backgroundTint="@color/colorAccent"
-        android:drawableRight="@drawable/ic_save_white_24dp"
-        android:drawableTint="@color/colorAccent50"
+        android:drawableRight="@drawable/ic_send_white_24dp"
         android:text="Spiel erstellen"
         android:textColor="@android:color/white" />
 
