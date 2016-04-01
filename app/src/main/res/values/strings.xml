@@ -35,23 +35,20 @@
     <string-array name="varlets_opponents_array">
         <item>Bitte Team auswählen</item>
         <item>Chemnitz Varlets</item>
-        <item>Radebeul Suburbian Foxes</item>
-        <item>Jenaer Hanfrieds</item>
-        <item>Erfurt Indigos</item>
-        <item>Spandau Bulldogs</item>
+        <item>Potsdam Royals</item>
+        <item>Berlin Kobras</item>
+        <item>Berlin Bears</item>
+        <item>Leipzig Lions</item>
         <item>Berlin Thunderbirds</item>
-        <item>Magdeburg Virin Guards</item>
     </string-array>
     <!--CLAYMORES-->
     <string-array name="claymores_opponents_array">
         <item>Bitte Team auswählen</item>
         <item>Chemnitz Claymores</item>
-        <item>Radebeul Suburbian Foxes</item>
-        <item>Jenaer Hanfrieds</item>
-        <item>Erfurt Indigos</item>
-        <item>Spandau Bulldogs</item>
-        <item>Berlin Thunderbirds</item>
-        <item>Magdeburg Virin Guards</item>
+        <item>Berlin Kobras</item>
+        <item>Berlin Rebels</item>
+        <item>Berlin Bears</item>
+        <item>Dresden Monarchs</item>
     </string-array>
 
 

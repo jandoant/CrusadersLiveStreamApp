@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
@@ -67,10 +68,6 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
 
         gameTime = null;
         gameDate = null;
-
-        //TODO: create new Game und on submit write infos to DB, up navigation
-
-
     }
 
 
@@ -106,13 +103,12 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         tv_time = (TextView) findViewById(R.id.tv_time_creategame);
 
         //Spinners
-        spinnerCounter = 0;
         spinner_toolbar = (Spinner) findViewById(R.id.spinner_toolbar_creategame);
         spinner_away = (Spinner) findViewById(R.id.spinner_away_creategame);
         spinner_home = (Spinner) findViewById(R.id.spinner_home_creategame);
         //--Array Adapter mit Daten füllen
-        spinnerToolbarAdapter = ArrayAdapter.createFromResource(this, R.array.chemnitz_teams_array, android.R.layout.simple_spinner_item);
-        spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.crusaders_opponents_array, android.R.layout.simple_spinner_item);
+        spinnerToolbarAdapter = ArrayAdapter.createFromResource(this, R.array.chemnitz_teams_array, android.R.layout.simple_spinner_dropdown_item);
+        spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.crusaders_opponents_array, android.R.layout.simple_spinner_dropdown_item);
         //--Dropdown Layout
         spinnerToolbarAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerOpponentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -156,6 +152,8 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
             db.addGame(myGame);
             db.close();
             finish();
+        } else {
+            Toast.makeText(CreateGameActivity.this, "Bitte alle Daten eingeben", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -204,13 +202,15 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+
         switch (adapterView.getId()) {
             //Auswahl Heimteam
             case R.id.spinner_home_creategame:
+                spinner_home.setPrompt("Heimteam");
                 Log.d("TEAMS", "onItemSelected(HOME)");
                 team_home = opponents[position];
-                //--wenn das ausgewählte Heimteam nicht Chemnitz ist, setze Auswärtsteam auf Chemnitz
-                if (position != 1) {
+                //--wenn das ausgewählte Heimteam nicht Chemnitz und nicht leer ist, setze Auswärtsteam auf Chemnitz
+                if (position > 1) {
                     spinner_away.setSelection(1, true);
                     team_away = opponents[1];
                 }
@@ -221,10 +221,11 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
                 break;
             //Auswahl Auswärtsteam
             case R.id.spinner_away_creategame:
+                spinner_away.setPrompt("Auswärtsteam");
                 Log.d("TEAMS", "onItemSelected(AWAY)");
                 team_away = opponents[position];
-                //--wenn das ausgewählte Auswärtsteam nicht Chemnitz ist, setze Heimteam auf Chemnitz
-                if (position != 1) {
+                //--wenn das ausgewählte Auswärtsteam nicht Chemnitz und nicht leer ist, setze Heimteam auf Chemnitz
+                if (position > 1) {
                     spinner_home.setSelection(1, true);
                     team_home = opponents[1];
                 }
@@ -233,10 +234,8 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
                     spinner_home.setSelection(0);
                 }
                 break;
-            //Auswahl der Chemnitzes Chemnitzer Teams
+            //Auswahl der Chemnitzes Chemnitzer Teams über Toolbar
             case R.id.spinner_toolbar_creategame:
-
-
                 switch (position) {
                     //CRUSADERS
                     case 0:

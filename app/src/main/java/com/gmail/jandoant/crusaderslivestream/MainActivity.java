@@ -5,15 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gmail.jandoant.crusaderslivestream.Adaper.GameListAdapter;
 import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
 import com.twitter.sdk.android.Twitter;
@@ -49,36 +50,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //UI
     Toolbar toolbar;
     FloatingActionButton fab_createNewGame;
-    TextView tv_games;
+    RecyclerView rv_gamecards;
     //Daten
     //--Datenbank
     LiveStreamDB db;
     //--Recycler View
+    GameListAdapter gameListAdapter;
+
     ArrayList<Game> gameArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUpUI();
-
-
-        /*
-        //Twitter-Login + SetUpUI()
-        manageTwitterLogin();
-        */
 
         //Datenbankverbindung aufbauen
         db = new LiveStreamDB(this, null, null, 1);
-        Log.d(TAG, CLASS_NAME + ": onResume()");
-        //Aktuelle Array-Liste auslesen
-
+        //Twitter-Login + SetUpUI()
+        manageTwitterLogin();
 
     }//ENDE onCreate()
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateGameList();
+        //aktuelle Spielliste auslesen
+        gameArrayList = db.dbAllGamesDataToArray();
+        rv_gamecards.setAdapter(new GameListAdapter(gameArrayList));
     }
 
     private void manageTwitterLogin() {
@@ -117,14 +114,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 2. Button bei onClick-Listener registrieren
      */
     private void setUpUI() {
-        //Activity-Layout mit XML verknüpfen
         setContentView(R.layout.activity_main);
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        //TextView
-        tv_games = (TextView) findViewById(R.id.tv_games);
-        //FAB-neues Spiel erstellen
+
+        //RecyclerView
+        rv_gamecards = (RecyclerView) findViewById(R.id.rv_gamecards);
+        //-LayoutManager
+        RecyclerView.LayoutManager myLayoutManager = new LinearLayoutManager(this);
+        //--Layout-Manager mit RecyclerView verknüpfen
+        rv_gamecards.setLayoutManager(myLayoutManager);
+        //--Scrolling-Verhalten
+        rv_gamecards.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (recyclerView.getScrollState() != 0) {
+                    fab_createNewGame.hide();
+                } else {
+                    fab_createNewGame.show();
+                }
+            }
+        });
+        //FAB
         fab_createNewGame = (FloatingActionButton) findViewById(R.id.fab_creategame_main);
         /* Was passiert, wenn Spiel-Button gedrückt wird? */
         fab_createNewGame.setOnClickListener(this);
@@ -227,9 +241,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }//ENDE postTweet()
 
-    private void updateGameList() {
-        gameArrayList = db.dbAllGamesDataToArray();
-    }
 
 
 

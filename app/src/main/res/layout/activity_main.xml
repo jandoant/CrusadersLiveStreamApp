@@ -5,27 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="56dp"
-        app:elevation="4dp">
-
-    </android.support.v7.widget.Toolbar>
-
     <RelativeLayout
-        android:id="@+id/rl_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tv_games"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Noch keine Spiele vorhanden" />
+            android:background="@color/colorPrimary"
+            android:minHeight="56dp"
+            app:elevation="4dp">
+
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_gamecards"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar_main">
+
+        </android.support.v7.widget.RecyclerView>
+
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab_creategame_main"
@@ -41,8 +42,6 @@
 
 
     </RelativeLayout>
-
-
 </android.support.design.widget.CoordinatorLayout>
 
 

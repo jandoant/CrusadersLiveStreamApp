@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_gamecard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="16dp"
+    android:padding="48dp"
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_gamedate_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:gravity="right"
+            android:text="Sonntag, 17.04.2015"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_gametime_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_gamedate_gamecard"
+            android:layout_alignRight="@+id/tv_gamedate_gamecard"
+            android:layout_below="@+id/tv_gamedate_gamecard"
+            android:text="15:00 Uhr"
+            android:textSize="10sp" />
+
+
+        <TextView
+            android:id="@+id/tv_team_away_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_punkte_away_gamecard"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/tv_punkte_away_gamecard"
+            android:layout_marginTop="110dp"
+            android:gravity="left"
+            android:text="Magdeburg Virgin Guards"
+            android:textSize="12sp"
+            android:textStyle="bold"></TextView>
+
+
+        <TextView
+            android:id="@+id/tv_punkte_away_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="170dp"
+            android:text="24"
+            android:textSize="48sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text=" - "
+            android:textSize="48sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/tv_punkte_home_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView10"
+            android:text="18"
+            android:textSize="48sp"
+            android:textStyle="bold"></TextView>
+
+
+        <TextView
+            android:id="@+id/tv_quarter_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:text="QUARTER 4"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/tv_team_home_gamecard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tv_punkte_home_gamecard"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/tv_punkte_home_gamecard"
+            android:layout_marginTop="110dp"
+            android:gravity="right"
+            android:text="Radebeul Suburbian Foxes"
+            android:textSize="12sp"
+            android:textStyle="bold">
+
+        </TextView>
+
+
+        />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

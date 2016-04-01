@@ -14,6 +14,9 @@ public class Game {
     private LocalDate gameDate;
     private LocalTime gameTime;
     private DateTime timestamp;
+
+    private int quarter;
+
     //Gegner
     private String homeTeam;
     private String awayTeam;
@@ -22,13 +25,13 @@ public class Game {
     private int aktuellePunkteAway;
     //Spielort
     private String gameOrt;
-
-
     //KONSTRUKTOR
     public Game() {
         this.aktuellePunkteAway = 0;
         this.aktuellePunkteHome = 0;
+        this.quarter = 0;
     }
+
 
     /**
      * Erstellt ein neues Spiel
@@ -44,12 +47,13 @@ public class Game {
         this.homeTeam = homeTeam;
         this.aktuellePunkteAway = 0;
         this.aktuellePunkteHome = 0;
+        this.quarter = 0;
     }
-
 
     public int get_id() {
         return _id;
     }
+
 
     public void set_id(int _id) {
         this._id = _id;
@@ -117,5 +121,23 @@ public class Game {
 
     public void setTimestamp(DateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getQuarter() {
+        return quarter;
+    }
+
+    public void setQuarter(int quarter) {
+        this.quarter = quarter;
+    }
+
+    public String getStrQuarter() {
+        if (this.quarter == 0) {
+            return "Spiel hat noch nicht begonnen";
+        } else if (this.quarter <= 4) {
+            return this.quarter + ". Quarter";
+        } else if (this.quarter > 5) {
+            return "finished";
+        } else return "irgendwas ist schief gelaufen";
     }
 }
