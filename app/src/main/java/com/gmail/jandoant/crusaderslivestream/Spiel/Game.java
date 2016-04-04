@@ -9,7 +9,6 @@ import org.joda.time.LocalTime;
  */
 public class Game {
 
-
     //ID
     private int _id;
     //Datum und Uhrzeit

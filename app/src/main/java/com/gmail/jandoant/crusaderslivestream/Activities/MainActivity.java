@@ -41,6 +41,7 @@ import io.fabric.sdk.android.Fabric;
  */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GameListAdapter.OnItemClickListener {
 
+    public static final String BUNDLE_GAME_ID = "ClickedGameId";
 
     //Twitter
     private static final String TWITTER_KEY = "auGACOKWN30mo7CvA1zEDsepl";
@@ -169,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
         //Game-ID an Detail Activity schicken
         int gameID = gameArrayList.get(position).get_id();
-        intent.putExtra("ClickedGameID", gameID);
+        intent.putExtra(BUNDLE_GAME_ID, gameID);
         startActivity(intent);
     }//ENDE onItemClick()
 
