@@ -1,4 +1,4 @@
-package com.gmail.jandoant.crusaderslivestream;
+package com.gmail.jandoant.crusaderslivestream.Activities;
 
 
 import android.content.Intent;
@@ -14,8 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.gmail.jandoant.crusaderslivestream.Adaper.GameListAdapter;
+import com.gmail.jandoant.crusaderslivestream.Adapter.GameListAdapter;
 import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
+import com.gmail.jandoant.crusaderslivestream.R;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
@@ -38,12 +39,13 @@ import io.fabric.sdk.android.Fabric;
  * 2. je nach Entscheidung (Klick auf Button) wird der User an die SpielActivity_alt oder TrainingActivity weitergeleitet
  * 3. ein OptionsMenu für das Twitter-LogOut wird erstellt
  */
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, GameListAdapter.OnItemClickListener {
 
 
     //Twitter
     private static final String TWITTER_KEY = "auGACOKWN30mo7CvA1zEDsepl";
     private static final String TWITTER_SECRET = "o0ATvvqaDA81gMPhmcneWYNR90pOoKeN3apLuFBsWj04PO2G1A";
+    static ArrayList<Game> gameArrayList;
     private final String TAG = "LiveStream";
     private final String CLASS_NAME = "MainActivity";
     TwitterSession jdActiveTwitterSession;
@@ -57,16 +59,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //--Recycler View
     GameListAdapter gameListAdapter;
 
-    ArrayList<Game> gameArrayList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Datenbankverbindung aufbauen
-        db = new LiveStreamDB(this, null, null, 1);
+        db = new LiveStreamDB(this);
+
+        setUpUI();
         //Twitter-Login + SetUpUI()
-        manageTwitterLogin();
+        //manageTwitterLogin();
 
     }//ENDE onCreate()
 
@@ -75,9 +77,109 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         //aktuelle Spielliste auslesen
         gameArrayList = db.dbAllGamesDataToArray();
-        rv_gamecards.setAdapter(new GameListAdapter(gameArrayList));
+        gameListAdapter = new GameListAdapter(gameArrayList);
+        gameListAdapter.setOnItemClickListener(this);
+        rv_gamecards.setAdapter(gameListAdapter);
+
     }
 
+    private void setUpUI() {
+        setContentView(R.layout.activity_main);
+        //Toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+
+        //RecyclerView
+        rv_gamecards = (RecyclerView) findViewById(R.id.rv_gamecards);
+        //-LayoutManager
+        RecyclerView.LayoutManager myLayoutManager = new LinearLayoutManager(this);
+        //--Layout-Manager mit RecyclerView verknüpfen
+        rv_gamecards.setLayoutManager(myLayoutManager);
+        //--Scrolling-Verhalten
+        rv_gamecards.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (recyclerView.getScrollState() != 0) {
+                    fab_createNewGame.hide();
+                } else {
+                    fab_createNewGame.show();
+                }
+            }
+        });
+        //FAB
+        fab_createNewGame = (FloatingActionButton) findViewById(R.id.fab_creategame_main);
+        //--onClick registrieren
+        if (fab_createNewGame != null) {
+            fab_createNewGame.setOnClickListener(this);
+        }
+
+    }//ENDE setUpUI()
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.fab_creategame_main:
+                //Spiel-Activity starten
+                startActivity(new Intent(getApplicationContext(), CreateGameActivity.class));
+                break;
+            default:
+                break;
+        }
+    }//ENDE onClick()
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }//ENDE onCreateOptionsMenu()
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.twitter_logout:
+                //Twitter LogOut realisieren
+                Twitter.logOut();
+                //Toast über erfolgreiche Twitter-Session-Abmeldung
+                Toast.makeText(MainActivity.this, "Du wurdest erfolgreich abgemeldet!", Toast.LENGTH_SHORT).show();
+                //Login-Activity wird aufgerufen, damit sich der Nutzer (wieder/anders)anmelden kann
+                startActivity(new Intent(MainActivity.this, TwitterLoginActivity.class));
+                /*MainActivity schließen um doppeltes Starten dieser Activity zu vermeiden,
+                da TwitterLoginActicity wieder dahin zurückführt
+                */
+                finish();
+                return true;
+            case R.id.twitter_clearGameTable:
+                //Spieltabelle der DB löschen
+                db.clearDBTable(LiveStreamDB.TABLE_GAMES);
+                db.close();
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }//ENDE onOptionsItemSelected()
+
+    @Override
+    public void onItemClick(int position, View view) {
+        Intent intent = new Intent(MainActivity.this, GameDetailActivity.class);
+        //Game-ID an Detail Activity schicken
+        int gameID = gameArrayList.get(position).get_id();
+        intent.putExtra("ClickedGameID", gameID);
+        startActivity(intent);
+    }//ENDE onItemClick()
+
+    @Override
+    public void onItemLongClick(int position, View view) {
+
+    }//ENDE on ItemLongClick()
+
+
+    // ######################################### TWITTER ####################################################
     private void manageTwitterLogin() {
         //Aktive Twitter Session ermitteln
         jdActiveTwitterSession = getActiveTwitterSession();
@@ -106,105 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Aktuelle Twitter-Session ermitteln
         activeTwitterSession = Twitter.getSessionManager().getActiveSession();
         return activeTwitterSession;
-    }
-
-    /**
-     * Methode setzt die UI auf
-     * 1. Verknüpfen der UI-Elemente mit XML
-     * 2. Button bei onClick-Listener registrieren
-     */
-    private void setUpUI() {
-        setContentView(R.layout.activity_main);
-        //Toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-
-        //RecyclerView
-        rv_gamecards = (RecyclerView) findViewById(R.id.rv_gamecards);
-        //-LayoutManager
-        RecyclerView.LayoutManager myLayoutManager = new LinearLayoutManager(this);
-        //--Layout-Manager mit RecyclerView verknüpfen
-        rv_gamecards.setLayoutManager(myLayoutManager);
-        //--Scrolling-Verhalten
-        rv_gamecards.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (recyclerView.getScrollState() != 0) {
-                    fab_createNewGame.hide();
-                } else {
-                    fab_createNewGame.show();
-                }
-            }
-        });
-        //FAB
-        fab_createNewGame = (FloatingActionButton) findViewById(R.id.fab_creategame_main);
-        /* Was passiert, wenn Spiel-Button gedrückt wird? */
-        fab_createNewGame.setOnClickListener(this);
-
-    }//ENDE setUpUI()
-
-    /**
-     * Anonyme onClick-Methode für jeden registrierten View
-     *
-     * @param v
-     */
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.fab_creategame_main:
-                //Spiel-Activity starten
-                startActivity(new Intent(getApplicationContext(), CreateGameActivity.class));
-                break;
-            default:
-                break;
-        }
-    }//ENDE onClick()
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_menu, menu);
-        return true;
-    }//ENDE onCreateOptionsMenu()
-
-
-    /**
-     * Methode definiert, was passsiert, wenn ein Item des OptionsMenus selektiert wurde
-     * 1. falls es sich um den LogOut-MenuPunkt handelt, wird ein Toast ausgegeben, der die erfolgreiche Abmeldung verkündet
-     *
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.twitter_logout:
-                //Twitter LogOut realisieren
-                Twitter.logOut();
-                //Toast über erfolgreiche Twitter-Session-Abmeldung
-                Toast.makeText(MainActivity.this, "Du wurdest erfolgreich abgemeldet!", Toast.LENGTH_SHORT).show();
-                //Login-Activity wird aufgerufen, damit sich der Nutzer (wieder/anders)anmelden kann
-                startActivity(new Intent(MainActivity.this, TwitterLoginActivity.class));
-                /*MainActivity schließen um doppeltes Starten dieser Activity zu vermeiden,
-                da TwitterLoginActicity wieder dahin zurückführt
-                */
-                finish();
-                return true;
-            case R.id.twitter_clearGameTable:
-                //Spieltabelle der DB löschen
-                db.clearDBTable(LiveStreamDB.TABLE_GAMES);
-                db.close();
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }//ENDE onOptionsItemSelected()
-
+    }//ENDE getActiveTwitterSession()
 
     private void postTweet(String tweet_message) {
         StatusesService jdStatusService = Twitter.getApiClient().getStatusesService();
@@ -240,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }//ENDE postTweet()
-
 
 
 

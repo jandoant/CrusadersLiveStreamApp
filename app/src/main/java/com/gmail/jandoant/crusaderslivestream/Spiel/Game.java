@@ -8,14 +8,16 @@ import org.joda.time.LocalTime;
  * Created by Jan on 28.03.2016.
  */
 public class Game {
+
+
     //ID
     private int _id;
     //Datum und Uhrzeit
     private LocalDate gameDate;
     private LocalTime gameTime;
     private DateTime timestamp;
-
     private int quarter;
+    private int playcounter;
 
     //Gegner
     private String homeTeam;
@@ -25,11 +27,13 @@ public class Game {
     private int aktuellePunkteAway;
     //Spielort
     private String gameOrt;
+
     //KONSTRUKTOR
     public Game() {
         this.aktuellePunkteAway = 0;
         this.aktuellePunkteHome = 0;
         this.quarter = 0;
+        this.playcounter = 0;
     }
 
 
@@ -48,12 +52,12 @@ public class Game {
         this.aktuellePunkteAway = 0;
         this.aktuellePunkteHome = 0;
         this.quarter = 0;
+        this.playcounter = 0;
     }
 
     public int get_id() {
         return _id;
     }
-
 
     public void set_id(int _id) {
         this._id = _id;
@@ -140,4 +144,14 @@ public class Game {
             return "finished";
         } else return "irgendwas ist schief gelaufen";
     }
+
+    public int getPlaycounter() {
+        return playcounter;
+    }
+
+    public void setPlaycounter(int playcounter) {
+        this.playcounter = playcounter;
+    }
+
+
 }

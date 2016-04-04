@@ -48,13 +48,14 @@ public class LiveStreamDB extends SQLiteOpenHelper {
     private final String COLUMN_GAME_HOMETEAM = "hometeam";
     private final String COLUMN_GAME_RESULT_HOME = "result_away";
     private final String COLUMN_GAME_RESULT_AWAY = "result_home";
+    private final String COLUMN_GAME_PLAYCOUNTER = "number_plays";
     private final String COLUMN_GAME_TIMESTAMP = "timestamp_game";
     Context context;
 
 
     //Konstruktor
-    public LiveStreamDB(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, DB_NAME, factory, DB_VERSION);
+    public LiveStreamDB(Context context) {
+        super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
     }
 
@@ -70,6 +71,7 @@ public class LiveStreamDB extends SQLiteOpenHelper {
                 COLUMN_GAME_RESULT_HOME + " INTEGER ," +
                 COLUMN_GAME_RESULT_AWAY + " INTEGER ," +
                 COLUMN_GAME_PLACE + " TEXT ," +
+                COLUMN_GAME_PLAYCOUNTER + " INTEGER ," +
                 COLUMN_GAME_TIMESTAMP + " INTEGER " +
                 ");";
         db.execSQL(query);
@@ -107,6 +109,7 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         //DATUM UND UHRZEIT
         values.put(COLUMN_GAME_DATE, game.getGameDate().toString());
         values.put(COLUMN_GAME_TIME, game.getGameTime().toString());
+        values.put(COLUMN_GAME_PLAYCOUNTER, game.getPlaycounter());
         //GEGNER
         values.put(COLUMN_GAME_HOMETEAM, game.getHomeTeam());
         values.put(COLUMN_GAME_AWAYTEAM, game.getAwayTeam());
@@ -146,21 +149,8 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         myCursor.moveToFirst();
         while (!myCursor.isAfterLast()) {
             Game myGame = new Game();
-            //--ID
-            myGame.set_id(getGameID(myCursor));
-            //--Datum und Uhrzeit
-            myGame.setGameDate(getGameDateFromDB(myCursor));
-            myGame.setGameTime(getGameTimeFromDB(myCursor));
-            //--Gegner
-            myGame.setHomeTeam(getHometeamFromDB(myCursor));
-            myGame.setAwayTeam(getAwayteamFromDB(myCursor));
-            //--Aktueller Punktestand
-            myGame.setAktuellePunkteHome(getGameResultHome(myCursor));
-            myGame.setAktuellePunkteAway(getGameResultAway(myCursor));
-            //--Timestamp
-            myGame.setTimestamp(getGameTimestampFromDB(myCursor));
-            //Spielort
-            myGame.setGameOrt(getGameOrtFromDB(myCursor));
+            //dem Spiel-Objekt die Werte aus der DB zuweisen
+            setGameFieldsFromDB(myCursor, myGame);
             //Den Spieler der aktuellen Cursorposition der ArrayList hinzufügen
             arrayListGames.add(myGame);
             //Cursor zur nächsten Position weiterwandern lassen
@@ -169,6 +159,48 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         //gibt alle GameObjekte der DB in ArrayList aus
         return arrayListGames;
     }
+
+    /**
+     * dem Game-Objekt die gespeicherten Werte aus der DB zuweisen
+     *
+     * @param myCursor
+     * @param myGame
+     */
+    private void setGameFieldsFromDB(Cursor myCursor, Game myGame) {
+        //--ID
+        myGame.set_id(getGameID(myCursor));
+        //--Datum und Uhrzeit
+        myGame.setGameDate(getGameDateFromDB(myCursor));
+        myGame.setGameTime(getGameTimeFromDB(myCursor));
+        myGame.setPlaycounter(getGamePlayCounterFromDB(myCursor));
+        //--Gegner
+        myGame.setHomeTeam(getHometeamFromDB(myCursor));
+        myGame.setAwayTeam(getAwayteamFromDB(myCursor));
+        //--Aktueller Punktestand
+        myGame.setAktuellePunkteHome(getGameResultHome(myCursor));
+        myGame.setAktuellePunkteAway(getGameResultAway(myCursor));
+        //--Timestamp
+        myGame.setTimestamp(getGameTimestampFromDB(myCursor));
+        //Spielort
+        myGame.setGameOrt(getGameOrtFromDB(myCursor));
+    }
+
+    private int getGamePlayCounterFromDB(Cursor myCursor) {
+        return myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_PLAYCOUNTER));
+    }
+
+    public Game getGameFromDbByID(int id) {
+        Game myGame = new Game();
+        //Datenbank-Abfrage (DB-ID, Datum, Uhrzeit, Heimteam, Auswärtsteam, Punktestand Heim/Auswärts) --> in Cursor speichern
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "SELECT * FROM " + TABLE_GAMES + " WHERE " + COLUMN_GAME_ID + " = " + id;
+        Log.d("TAG", query);
+        Cursor myCursor = db.rawQuery(query, null);
+        myCursor.moveToFirst();
+        setGameFieldsFromDB(myCursor, myGame);
+        return myGame;
+    }
+
 
     private int getGameResultHome(Cursor myCursor) {
         return myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_RESULT_HOME));

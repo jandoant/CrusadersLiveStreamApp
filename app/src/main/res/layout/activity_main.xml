@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:minHeight="56dp"
-            app:elevation="4dp">
+            app:elevation="4dp"
+            app:theme="@style/ToolbarTheme">
 
         </android.support.v7.widget.Toolbar>
 

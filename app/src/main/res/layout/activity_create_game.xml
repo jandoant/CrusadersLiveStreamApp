@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:divider="@drawable/abc_list_divider_mtrl_alpha"
     android:orientation="vertical"
-    tools:context="com.gmail.jandoant.crusaderslivestream.CreateGameActivity">
+    tools:context=".Activities.CreateGameActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_creategame"
@@ -15,7 +15,8 @@
         android:background="@color/colorPrimary"
         android:contentInsetLeft="@dimen/material_content_margin"
         android:minHeight="@dimen/material_toolbar_minheight"
-        app:elevation="4dp">
+        app:elevation="4dp"
+        app:theme="@style/ToolbarTheme">
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_toolbar_creategame"
@@ -189,7 +190,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="100dp"
-        android:backgroundTint="@color/colorAccent"
+        android:backgroundTint="@color/colorPrimary"
         android:drawableRight="@drawable/ic_send_white_24dp"
         android:text="Spiel erstellen"
         android:textColor="@android:color/white" />

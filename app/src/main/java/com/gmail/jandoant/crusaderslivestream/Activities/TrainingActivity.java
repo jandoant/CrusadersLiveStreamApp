@@ -1,4 +1,4 @@
-package com.gmail.jandoant.crusaderslivestream;
+package com.gmail.jandoant.crusaderslivestream.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.gmail.jandoant.crusaderslivestream.R;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.Result;

@@ -1,4 +1,4 @@
-package com.gmail.jandoant.crusaderslivestream;
+package com.gmail.jandoant.crusaderslivestream.Activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
+import com.gmail.jandoant.crusaderslivestream.R;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
 
 import org.joda.time.DateTime;
@@ -28,6 +29,7 @@ import org.joda.time.LocalTime;
 public class CreateGameActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final String CLASS_NAME = "CreateGameActivity";
     private final String TAG = "LiveStream";
+
     //UI
     Toolbar toolbar;
     Button btn_date;
@@ -45,11 +47,9 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
     String team_away;
     String team_home;
     String[] opponents;
-    int SpinnerCounter;
-    //Datenbank
+    //--Datenbank
     LiveStreamDB db;
-
-    //Datum und Zeit
+    //--Datum und Zeit
     DateTime nowDate;
     LocalDate gameDate;
     LocalTime gameTime;
@@ -62,7 +62,7 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
 
         spinnerCounter = 0;
         //Datenbankzugriff herstellen
-        db = new LiveStreamDB(this, null, null, 1);
+        db = new LiveStreamDB(this);
         //UI
         setUpUI();
 
