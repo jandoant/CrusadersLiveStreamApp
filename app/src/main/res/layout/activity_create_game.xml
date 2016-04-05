@@ -13,15 +13,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:contentInsetLeft="@dimen/material_content_margin"
-        android:minHeight="@dimen/material_toolbar_minheight"
-        app:elevation="4dp"
-        app:theme="@style/ToolbarTheme">
+        android:contentInsetLeft="72dp"
+        android:minHeight="56dp"
+        app:elevation="4dp">
 
         <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/spinner_toolbar_creategame"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></android.support.v7.widget.AppCompatSpinner>
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.AppCompatSpinner>
 
 
     </android.support.v7.widget.Toolbar>
@@ -83,20 +84,21 @@
             android:orientation="horizontal"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp">
-        <Button
-            android:id="@+id/btn_time_creategame"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightBlueA700"
-            android:text="Kickoff"
-            android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/tv_time_creategame"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bitte die Startzeit angeben" />
-    </LinearLayout>
+            <Button
+                android:id="@+id/btn_time_creategame"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/lightBlueA700"
+                android:text="Kickoff"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tv_time_creategame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bitte die Startzeit angeben" />
+        </LinearLayout>
 
     </LinearLayout>
 

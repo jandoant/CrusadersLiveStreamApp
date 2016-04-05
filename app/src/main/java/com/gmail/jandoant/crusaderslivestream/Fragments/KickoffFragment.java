@@ -2,9 +2,9 @@ package com.gmail.jandoant.crusaderslivestream.Fragments;
 
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import com.gmail.jandoant.crusaderslivestream.R;
 
 public class KickoffFragment extends Fragment implements View.OnClickListener {
+
+
     //Fragment Layout
     View fragmentLayout;
     Button btn_kickoff;

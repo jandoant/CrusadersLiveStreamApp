@@ -15,8 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:minHeight="56dp"
-            app:elevation="4dp"
-            app:theme="@style/ToolbarTheme">
+            app:elevation="4dp">
 
         </android.support.v7.widget.Toolbar>
 
@@ -40,8 +39,6 @@
             android:layout_marginRight="16dp"
             android:src="@drawable/ic_create_new_folder_white_24dp"
             app:fabSize="normal" />
-
-
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
 

@@ -4,9 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
-/**
- * Created by Jan on 28.03.2016.
- */
 public class Game {
 
     //ID
@@ -34,7 +31,6 @@ public class Game {
         this.quarter = 0;
         this.playcounter = 0;
     }
-
 
     /**
      * Erstellt ein neues Spiel
