@@ -48,7 +48,7 @@ public class LiveStreamDB extends SQLiteOpenHelper {
     private final String COLUMN_GAME_HOMETEAM = "hometeam";
     private final String COLUMN_GAME_RESULT_HOME = "result_away";
     private final String COLUMN_GAME_RESULT_AWAY = "result_home";
-    private final String COLUMN_GAME_PLAYCOUNTER = "number_plays";
+    private final String COLUMN_GAME_QUARTER = "gamequarter";
     private final String COLUMN_GAME_TIMESTAMP = "timestamp_game";
     Context context;
 
@@ -71,7 +71,7 @@ public class LiveStreamDB extends SQLiteOpenHelper {
                 COLUMN_GAME_RESULT_HOME + " INTEGER ," +
                 COLUMN_GAME_RESULT_AWAY + " INTEGER ," +
                 COLUMN_GAME_PLACE + " TEXT ," +
-                COLUMN_GAME_PLAYCOUNTER + " INTEGER ," +
+                COLUMN_GAME_QUARTER + " INTEGER ," +
                 COLUMN_GAME_TIMESTAMP + " INTEGER " +
                 ");";
         db.execSQL(query);
@@ -109,7 +109,6 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         //DATUM UND UHRZEIT
         values.put(COLUMN_GAME_DATE, game.getGameDate().toString());
         values.put(COLUMN_GAME_TIME, game.getGameTime().toString());
-        values.put(COLUMN_GAME_PLAYCOUNTER, game.getPlaycounter());
         //GEGNER
         values.put(COLUMN_GAME_HOMETEAM, game.getHomeTeam());
         values.put(COLUMN_GAME_AWAYTEAM, game.getAwayTeam());
@@ -172,7 +171,7 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         //--Datum und Uhrzeit
         myGame.setGameDate(getGameDateFromDB(myCursor));
         myGame.setGameTime(getGameTimeFromDB(myCursor));
-        myGame.setPlaycounter(getGamePlayCounterFromDB(myCursor));
+        myGame.setQuarter(getGameQuarterFromDB(myCursor));
         //--Gegner
         myGame.setHomeTeam(getHometeamFromDB(myCursor));
         myGame.setAwayTeam(getAwayteamFromDB(myCursor));
@@ -185,9 +184,10 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         myGame.setGameOrt(getGameOrtFromDB(myCursor));
     }
 
-    private int getGamePlayCounterFromDB(Cursor myCursor) {
-        return myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_PLAYCOUNTER));
+    private int getGameQuarterFromDB(Cursor myCursor) {
+        return myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_QUARTER));
     }
+
 
     public Game getGameFromDbByID(int id) {
         Game myGame = new Game();
@@ -200,6 +200,18 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         setGameFieldsFromDB(myCursor, myGame);
         return myGame;
     }
+
+    public void updateGameQuarterInDB(Game myGame) {
+        SQLiteDatabase db = getWritableDatabase();
+        String query = "UPDATE " + TABLE_GAMES +
+                " SET " + COLUMN_GAME_QUARTER + " = " + myGame.getQuarter() +
+                " WHERE " + COLUMN_GAME_ID + " = " + myGame.get_id();
+
+        db.execSQL(query);
+        db.close();
+    }
+
+
 
 
     private int getGameResultHome(Cursor myCursor) {

@@ -54,7 +54,7 @@ public class HeaderFragment extends Fragment {
 
         gameID = getArguments().getInt(MainActivity.BUNDLE_GAME_ID);
         myGame = db.getGameFromDbByID(gameID);
-        updateUI();
+        updateUI(myGame);
 
     }
 
@@ -84,7 +84,8 @@ public class HeaderFragment extends Fragment {
     }
 
 
-    private void updateUI() {
+    public void updateUI(Game myGame) {
+
         //--Datum und Uhrzeit
         tv_gamedate.setText(myGame.getGameDate().toString());
         tv_gametime.setText(myGame.getGameTime().toString());

@@ -139,7 +139,7 @@ public class Game {
             return "Spiel hat noch nicht begonnen";
         } else if (this.quarter <= 4) {
             return this.quarter + ". Quarter";
-        } else if (this.quarter > 5) {
+        } else if (this.quarter > 4) {
             return "finished";
         } else return "irgendwas ist schief gelaufen";
     }

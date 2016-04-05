@@ -51,4 +51,6 @@ dependencies {
     compile 'joda-time:joda-time:2.9.2'
     compile 'com.doodle.android:android-material-chips:1.0.1'
     compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:customtabs:23.2.1'
+
 }

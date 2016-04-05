@@ -76,11 +76,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        //aktuelle Spielliste auslesen
-        gameArrayList = db.dbAllGamesDataToArray();
-        gameListAdapter = new GameListAdapter(gameArrayList);
+        updateUI();
         gameListAdapter.setOnItemClickListener(this);
-        rv_gamecards.setAdapter(gameListAdapter);
+
 
     }
 
@@ -118,6 +116,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }//ENDE setUpUI()
 
+    private void updateUI() {
+        //aktuelle Spielliste auslesen
+        gameArrayList = db.dbAllGamesDataToArray();
+        gameListAdapter = new GameListAdapter(gameArrayList);
+        rv_gamecards.setAdapter(gameListAdapter);
+    }
+
+
     @Override
     public void onClick(View v) {
 
@@ -125,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fab_creategame_main:
                 //Spiel-Activity starten
                 startActivity(new Intent(getApplicationContext(), CreateGameActivity.class));
+                overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
                 break;
             default:
                 break;
@@ -146,19 +153,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.twitter_logout:
                 //Twitter LogOut realisieren
                 Twitter.logOut();
-                //Toast über erfolgreiche Twitter-Session-Abmeldung
                 Toast.makeText(MainActivity.this, "Du wurdest erfolgreich abgemeldet!", Toast.LENGTH_SHORT).show();
-                //Login-Activity wird aufgerufen, damit sich der Nutzer (wieder/anders)anmelden kann
                 startActivity(new Intent(MainActivity.this, TwitterLoginActivity.class));
-                /*MainActivity schließen um doppeltes Starten dieser Activity zu vermeiden,
-                da TwitterLoginActicity wieder dahin zurückführt
-                */
                 finish();
                 return true;
             case R.id.twitter_clearGameTable:
                 //Spieltabelle der DB löschen
                 db.clearDBTable(LiveStreamDB.TABLE_GAMES);
-                db.close();
+                updateUI();
             default:
                 break;
         }
@@ -172,6 +174,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int gameID = gameArrayList.get(position).get_id();
         intent.putExtra(BUNDLE_GAME_ID, gameID);
         startActivity(intent);
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+
+
+
+
     }//ENDE onItemClick()
 
     @Override
