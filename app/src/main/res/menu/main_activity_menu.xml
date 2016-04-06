@@ -7,7 +7,11 @@
         android:title="@string/optionsmenu_twitter_logout"
         app:showAsAction="always" />
     <item
-        android:id="@+id/twitter_clearGameTable"
+        android:id="@+id/create_team"
+        android:title="Neues Team"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/clearGameTable"
         android:title="@string/optionsmenu_clear_gametable"
         app:showAsAction="never" />
 

@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //--Recycler View
     GameListAdapter gameListAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //Datenbankverbindung aufbauen
         db = new LiveStreamDB(this);
-
         setUpUI();
         //Twitter-Login + SetUpUI()
         //manageTwitterLogin();
@@ -78,8 +78,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         updateUI();
         gameListAdapter.setOnItemClickListener(this);
-
-
     }
 
     private void setUpUI() {
@@ -156,11 +154,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "Du wurdest erfolgreich abgemeldet!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, TwitterLoginActivity.class));
                 finish();
-                return true;
-            case R.id.twitter_clearGameTable:
+                break;
+            case R.id.clearGameTable:
                 //Spieltabelle der DB löschen
-                db.clearDBTable(LiveStreamDB.TABLE_GAMES);
+                db.clearDbTable(LiveStreamDB.TABLE_GAMES);
+                db.clearDbTable(LiveStreamDB.TABLE_TEAMS);
                 updateUI();
+                break;
+            case R.id.create_team:
+                Intent intent = new Intent(MainActivity.this, CreateTeamActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

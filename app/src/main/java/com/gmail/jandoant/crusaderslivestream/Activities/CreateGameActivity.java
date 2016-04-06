@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,13 +17,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.gmail.jandoant.crusaderslivestream.Adapter.OpponentsSpinnerAdapter;
 import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
 import com.gmail.jandoant.crusaderslivestream.R;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
+import com.gmail.jandoant.crusaderslivestream.Spiel.Team;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+
+import java.util.ArrayList;
 
 public class CreateGameActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final String CLASS_NAME = "CreateGameActivity";
@@ -42,17 +45,19 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
 
     //Daten
     //--Spinner
-    ArrayAdapter<CharSequence> spinnerOpponentsAdapter;
+    ArrayAdapter spinnerOpponentsAdapter;
     ArrayAdapter<CharSequence> spinnerToolbarAdapter;
-    String team_away;
-    String team_home;
-    String[] opponents;
+    //Teams
+    Team teamAway;
+    Team teamHome;
+    ArrayList<Team> opponents;
     //--Datenbank
     LiveStreamDB db;
     //--Datum und Zeit
     DateTime nowDate;
     LocalDate gameDate;
     LocalTime gameTime;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +68,10 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         spinnerCounter = 0;
         //Datenbankzugriff herstellen
         db = new LiveStreamDB(this);
+
+
         //UI
         setUpUI();
-
         gameTime = null;
         gameDate = null;
     }
@@ -98,28 +104,26 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         btn_time.setOnClickListener(this);
         btn_createGame.setOnClickListener(this);
 
-        //Text Views
-        tv_date = (TextView) findViewById(R.id.tv_date_creategame);
-        tv_time = (TextView) findViewById(R.id.tv_time_creategame);
-
         //Spinners
         spinner_toolbar = (Spinner) findViewById(R.id.spinner_toolbar_creategame);
         spinner_away = (Spinner) findViewById(R.id.spinner_away_creategame);
         spinner_home = (Spinner) findViewById(R.id.spinner_home_creategame);
         //--Array Adapter mit Daten füllen
         spinnerToolbarAdapter = ArrayAdapter.createFromResource(this, R.array.chemnitz_teams_array, android.R.layout.simple_spinner_dropdown_item);
-        spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.crusaders_opponents_array, android.R.layout.simple_spinner_dropdown_item);
         //--Dropdown Layout
         spinnerToolbarAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerOpponentsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //--Adapter mit Spinner verknüpfen
         spinner_toolbar.setAdapter(spinnerToolbarAdapter);
-        spinner_away.setAdapter(spinnerOpponentsAdapter);
-        spinner_home.setAdapter(spinnerOpponentsAdapter);
-        //--onItemClick--Registration
+        //--onClick-Registration
         spinner_toolbar.setOnItemSelectedListener(this);
-        spinner_away.setOnItemSelectedListener(this);
         spinner_home.setOnItemSelectedListener(this);
+        spinner_away.setOnItemSelectedListener(this);
+
+
+        //Text Views
+        tv_date = (TextView) findViewById(R.id.tv_date_creategame);
+        tv_time = (TextView) findViewById(R.id.tv_time_creategame);
+
     }
 
 
@@ -144,17 +148,19 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void createGame() {
+
+
         //prüfen, ob alle Felder ausgefüllt wurden
-        if (gameDate != null && gameTime != null && team_home != opponents[0] && team_away != opponents[0]) {
-            Log.d(TAG, CLASS_NAME + ": Spiel kann erstellt werden");
-            //ToDo: Datenbankzugriff und schreiben in diese, nach Erstellung Wechsel in den Create-Play-Bereich
-            Game myGame = new Game(gameDate, gameTime, team_home, team_away);
+        if (gameDate != null && gameTime != null) {
+            Game myGame = new Game(gameDate, gameTime, teamHome, teamAway);
             db.addGame(myGame);
             db.close();
             finish();
         } else {
-            Toast.makeText(CreateGameActivity.this, "Bitte alle Daten eingeben", Toast.LENGTH_SHORT).show();
+            Toast.makeText(CreateGameActivity.this, "Bitte alle Felder ausfüllen", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
     private void showDatePickerDialog() {
@@ -202,63 +208,38 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-
+        //ToDO: Auswahlkompfort hinzufügen
         switch (adapterView.getId()) {
             //Auswahl Heimteam
             case R.id.spinner_home_creategame:
                 spinner_home.setPrompt("Heimteam");
-                Log.d("TEAMS", "onItemSelected(HOME)");
-                team_home = opponents[position];
-                //--wenn das ausgewählte Heimteam nicht Chemnitz und nicht leer ist, setze Auswärtsteam auf Chemnitz
-                if (position > 1) {
-                    spinner_away.setSelection(1, true);
-                    team_away = opponents[1];
-                }
-                //--verhindert doppeltes Auftreten von Chemnitz
-                if (team_home == opponents[1] && team_away == opponents[1]) {
-                    spinner_away.setSelection(0);
-                }
+                teamHome = opponents.get(position);
                 break;
             //Auswahl Auswärtsteam
             case R.id.spinner_away_creategame:
                 spinner_away.setPrompt("Auswärtsteam");
-                Log.d("TEAMS", "onItemSelected(AWAY)");
-                team_away = opponents[position];
-                //--wenn das ausgewählte Auswärtsteam nicht Chemnitz und nicht leer ist, setze Heimteam auf Chemnitz
-                if (position > 1) {
-                    spinner_home.setSelection(1, true);
-                    team_home = opponents[1];
-                }
-                //--verhindert doppeltes Auftreten von Chemnitz
-                if (team_home == opponents[1] && team_away == opponents[1]) {
-                    spinner_home.setSelection(0);
-                }
+                teamAway = opponents.get(position);
                 break;
             //Auswahl der Chemnitzes Chemnitzer Teams über Toolbar
             case R.id.spinner_toolbar_creategame:
                 switch (position) {
                     //CRUSADERS
                     case 0:
-                        opponents = getResources().getStringArray(R.array.crusaders_opponents_array);
-                        spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.crusaders_opponents_array, android.R.layout.simple_spinner_item);
-                        spinner_home.setAdapter(spinnerOpponentsAdapter);
-                        spinner_away.setAdapter(spinnerOpponentsAdapter);
+                        opponents = db.dbTeamsDataToArrayByAge(Team.ALTERSKLASSE_HERREN);
                         break;
                     //VARLETS
                     case 1:
-                        opponents = getResources().getStringArray(R.array.varlets_opponents_array);
-                        spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.varlets_opponents_array, android.R.layout.simple_spinner_item);
-                        spinner_home.setAdapter(spinnerOpponentsAdapter);
-                        spinner_away.setAdapter(spinnerOpponentsAdapter);
+                        opponents = db.dbTeamsDataToArrayByAge(Team.ALTERSKLASSE_A);
                         break;
                     //CLAYMORES
                     case 2:
-                        opponents = getResources().getStringArray(R.array.claymores_opponents_array);
-                        spinnerOpponentsAdapter = ArrayAdapter.createFromResource(this, R.array.claymores_opponents_array, android.R.layout.simple_spinner_item);
-                        spinner_home.setAdapter(spinnerOpponentsAdapter);
-                        spinner_away.setAdapter(spinnerOpponentsAdapter);
+                        opponents = db.dbTeamsDataToArrayByAge(Team.ALTERSKLASSE_B);
                         break;
                 }
+                spinnerOpponentsAdapter = new OpponentsSpinnerAdapter(this, opponents);
+                spinner_home.setAdapter(spinnerOpponentsAdapter);
+                spinner_away.setAdapter(spinnerOpponentsAdapter);
+                break;
             default:
                 break;
         }

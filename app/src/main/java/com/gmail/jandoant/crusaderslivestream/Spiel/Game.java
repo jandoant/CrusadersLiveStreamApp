@@ -16,8 +16,8 @@ public class Game {
     private int playcounter;
 
     //Gegner
-    private String homeTeam;
-    private String awayTeam;
+    private Team homeTeam;
+    private Team awayTeam;
     //Aktueller Punktestand
     private int aktuellePunkteHome;
     private int aktuellePunkteAway;
@@ -39,7 +39,7 @@ public class Game {
      * @param awayTeam
      * @param homeTeam
      */
-    public Game(LocalDate gameDate, LocalTime gameTime, String homeTeam, String awayTeam) {
+    public Game(LocalDate gameDate, LocalTime gameTime, Team homeTeam, Team awayTeam) {
         this.gameDate = gameDate;
         this.gameTime = gameTime;
         this.awayTeam = awayTeam;
@@ -74,19 +74,19 @@ public class Game {
         this.aktuellePunkteHome = aktuellePunkteHome;
     }
 
-    public String getAwayTeam() {
+    public Team getAwayTeam() {
         return awayTeam;
     }
 
-    public void setAwayTeam(String awayTeam) {
+    public void setAwayTeam(Team awayTeam) {
         this.awayTeam = awayTeam;
     }
 
-    public String getHomeTeam() {
+    public Team getHomeTeam() {
         return homeTeam;
     }
 
-    public void setHomeTeam(String homeTeam) {
+    public void setHomeTeam(Team homeTeam) {
         this.homeTeam = homeTeam;
     }
 
@@ -147,6 +147,14 @@ public class Game {
     public void setPlaycounter(int playcounter) {
         this.playcounter = playcounter;
     }
+
+    public String generateGameHashtag() {
+        return "#" + homeTeam.getAbkuerzung() + awayTeam.getAbkuerzung();
+    }
+
+
+
+
 
 
 }

@@ -42,15 +42,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
     @Override
     public void onBindViewHolder(GameListViewHolder holder, int position) {
 
-
         //Daten des Spielers auf dieser Adapterposition aus Player-Objekt auslesen
         //--Datum und Uhrzeit
         String gameDate = gameArrayList.get(position).getGameDate().toString();
         String gameTime = gameArrayList.get(position).getGameTime().toString();
         String quarter = gameArrayList.get(position).getStrQuarter();
         //--Gegner
-        String homeTeam = gameArrayList.get(position).getHomeTeam();
-        String awayTeam = gameArrayList.get(position).getAwayTeam();
+        String homeTeam = gameArrayList.get(position).getHomeTeam().getName();
+        String awayTeam = gameArrayList.get(position).getAwayTeam().getName();
         //--Punktestand
         int punkteHome = gameArrayList.get(position).getAktuellePunkteHome();
         int punkteAway = gameArrayList.get(position).getAktuellePunkteAway();

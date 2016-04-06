@@ -102,8 +102,8 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
         tv_gamedate.setText(myGame.getGameDate().toString());
         tv_gameID.setText(String.valueOf(myGame.get_id()));
         tv_quarter.setText(myGame.getStrQuarter());
-        tv_hometeam.setText(myGame.getHomeTeam());
-        tv_awayteam.setText(myGame.getAwayTeam());
+        tv_hometeam.setText(myGame.getHomeTeam().getName());
+        tv_awayteam.setText(myGame.getAwayTeam().getName());
         tv_punkte_home.setText(String.valueOf(myGame.getAktuellePunkteHome()));
         tv_punkte_away.setText(String.valueOf(myGame.getAktuellePunkteAway()));
 
@@ -127,13 +127,14 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
 
     @Override
     public void onKickoffButtonClick(View view) {
+        //Quarter um eins hochzählen (Spiel beginnt)
         myGame.setQuarter(myGame.getQuarter() + 1);
         String tweet = generateKickoffTweet();
         Toast.makeText(GameDetailActivity.this, tweet, Toast.LENGTH_SHORT).show();
+        //GameObjekt in DB updaten
         db.updateGameQuarterInDB(myGame);
+        //TabLayout updaten
         updateUI(myGame);
-
-
     }
 
     private String generateKickoffTweet() {

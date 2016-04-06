@@ -19,37 +19,18 @@
         <item>CLAYMORES</item>
     </string-array>
 
+    <!--Inhalt des Toolbar-Spinners-->
+    <string-array name="altersklassen_array">
+        <item>Altersklasse wählen</item>
+        <item>Herren</item>
+        <item>A-Jugend</item>
+        <item>B-Jugend</item>
+    </string-array>
+
+
     <!--Inhalt des Team-Auswahl Spinners -->
     <!--CRUSADERS-->
-    <string-array name="crusaders_opponents_array">
-        <item>Bitte Team auswählen</item>
-        <item>Chemnitz Crusaders</item>
-        <item>Radebeul Suburbian Foxes</item>
-        <item>Jenaer Hanfrieds</item>
-        <item>Erfurt Indigos</item>
-        <item>Spandau Bulldogs</item>
-        <item>Berlin Thunderbirds</item>
-        <item>Magdeburg Virin Guards</item>
-    </string-array>
-    <!--VARLETS-->
-    <string-array name="varlets_opponents_array">
-        <item>Bitte Team auswählen</item>
-        <item>Chemnitz Varlets</item>
-        <item>Potsdam Royals</item>
-        <item>Berlin Kobras</item>
-        <item>Berlin Bears</item>
-        <item>Leipzig Lions</item>
-        <item>Berlin Thunderbirds</item>
-    </string-array>
-    <!--CLAYMORES-->
-    <string-array name="claymores_opponents_array">
-        <item>Bitte Team auswählen</item>
-        <item>Chemnitz Claymores</item>
-        <item>Berlin Kobras</item>
-        <item>Berlin Rebels</item>
-        <item>Berlin Bears</item>
-        <item>Dresden Monarchs</item>
-    </string-array>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
