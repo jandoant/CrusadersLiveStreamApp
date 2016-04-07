@@ -42,7 +42,6 @@ import io.fabric.sdk.android.Fabric;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, GameListAdapter.OnItemClickListener {
 
     public static final String BUNDLE_GAME_ID = "ClickedGameId";
-
     //Twitter
     private static final String TWITTER_KEY = "auGACOKWN30mo7CvA1zEDsepl";
     private static final String TWITTER_SECRET = "o0ATvvqaDA81gMPhmcneWYNR90pOoKeN3apLuFBsWj04PO2G1A";
@@ -82,13 +81,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setUpUI() {
         setContentView(R.layout.activity_main);
+
         //Toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
+        //ToDO: RecyclerView Games wieder korrekt anzeigen
         //RecyclerView
         rv_gamecards = (RecyclerView) findViewById(R.id.rv_gamecards);
-        //-LayoutManager
+        //--LayoutManager
         RecyclerView.LayoutManager myLayoutManager = new LinearLayoutManager(this);
         //--Layout-Manager mit RecyclerView verknüpfen
         rv_gamecards.setLayoutManager(myLayoutManager);
@@ -158,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.clearGameTable:
                 //Spieltabelle der DB löschen
                 db.clearDbTable(LiveStreamDB.TABLE_GAMES);
-                db.clearDbTable(LiveStreamDB.TABLE_TEAMS);
                 updateUI();
                 break;
             case R.id.create_team:
@@ -178,10 +178,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra(BUNDLE_GAME_ID, gameID);
         startActivity(intent);
         overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-
-
-
-
     }//ENDE onItemClick()
 
     @Override
@@ -255,8 +251,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }//ENDE postTweet()
-
-
-
 
 }//ENDE MainActivity

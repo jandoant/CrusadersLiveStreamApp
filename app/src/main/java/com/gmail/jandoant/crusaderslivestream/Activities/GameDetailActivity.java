@@ -26,8 +26,7 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
     public TextView tv_hometeam;
     public TextView tv_awayteam;
     //Ergebnis
-    public TextView tv_punkte_home;
-    public TextView tv_punkte_away;
+    public TextView tv_standing;
     //UI
     Toolbar toolbar;
     TextView tv_gameID;
@@ -83,8 +82,7 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
         tv_hometeam = (TextView) findViewById(R.id.tv_team_home_gamedetail);
         tv_awayteam = (TextView) findViewById(R.id.tv_team_away_gamedetail);
         //--Ergebnis
-        tv_punkte_home = (TextView) findViewById(R.id.tv_punkte_home_gamedetail);
-        tv_punkte_away = (TextView) findViewById(R.id.tv_punkte_away_gamedetail);
+        tv_standing = (TextView) findViewById(R.id.tv_standing_gamedetail);
     }
 
     private void updateUI(Game myGame) {
@@ -102,10 +100,9 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
         tv_gamedate.setText(myGame.getGameDate().toString());
         tv_gameID.setText(String.valueOf(myGame.get_id()));
         tv_quarter.setText(myGame.getStrQuarter());
-        tv_hometeam.setText(myGame.getHomeTeam().getName());
-        tv_awayteam.setText(myGame.getAwayTeam().getName());
-        tv_punkte_home.setText(String.valueOf(myGame.getAktuellePunkteHome()));
-        tv_punkte_away.setText(String.valueOf(myGame.getAktuellePunkteAway()));
+        tv_hometeam.setText(myGame.getHomeTeam().getAbkuerzung());
+        tv_awayteam.setText(myGame.getAwayTeam().getAbkuerzung());
+        tv_standing.setText(myGame.generateGameStanding());
 
     }
 
@@ -130,7 +127,7 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
         //Quarter um eins hochzählen (Spiel beginnt)
         myGame.setQuarter(myGame.getQuarter() + 1);
         String tweet = generateKickoffTweet();
-        Toast.makeText(GameDetailActivity.this, tweet, Toast.LENGTH_SHORT).show();
+        Toast.makeText(GameDetailActivity.this, tweet, Toast.LENGTH_LONG).show();
         //GameObjekt in DB updaten
         db.updateGameQuarterInDB(myGame);
         //TabLayout updaten
@@ -141,7 +138,7 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
 
         //TODO: richtigen TweetString generieren und bei Twitter posten --> Abkürzungen, Hashtag
         String tweet = null;
-        tweet = "KICKOFF beim FootballSpiel " + myGame.getHomeTeam() + " gegen " + myGame.getAwayTeam() + "!" + "Verfolge das Spiel bei Twitter oder Facebook unter dem Hashtag #Hashtag";
+        tweet = "KICKOFF beim FootballSpiel " + myGame.getHomeTeam().getName() + " gegen " + myGame.getAwayTeam().getName() + "!" + " Verfolge das Spiel bei Twitter oder Facebook unter dem Hashtag " + myGame.generateGameHashtag();
         return tweet;
     }
 }

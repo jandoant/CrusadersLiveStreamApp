@@ -2,7 +2,7 @@
 <resources>
 
     <!-- APP COLORS -->
-    <color name="colorPrimary">@color/lightBlue300</color>
+    <color name="colorPrimary">@color/lightBlue400</color>
     <color name="colorPrimaryDark">@color/lightBlue500</color>
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="windowBackground">#FFFFFF</color>
@@ -13,7 +13,10 @@
     <!-- MATERIAL COLORS-->
     <!-- LIGHT BLUE -->
     <color name="lightBlue300">#4FC3F7</color>
+    <color name="lightBlue400">#29B6F6</color>
     <color name="lightBlue500">#03A9F4</color>
+    <!-- PINK -->
+    <color name="pinkA400">#F50057</color>
 
     <!-- BLUE GREY -->
     <color name="blueGrey50">#ECEFF1</color>

@@ -12,9 +12,10 @@
         android:id="@+id/toolbar_creategame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:contentInsetLeft="72dp"
-        android:minHeight="56dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:elevation="4dp">
 
         <android.support.v7.widget.AppCompatSpinner
@@ -89,7 +90,7 @@
                 android:id="@+id/btn_time_creategame"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/lightBlueA700"
+                android:backgroundTint="@color/pinkA400"
                 android:text="Kickoff"
                 android:textColor="@android:color/white" />
 
@@ -143,14 +144,14 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="20sp" />
 
-                <Spinner
+                <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner_home_creategame"
                     android:layout_width="160dp"
                     android:layout_height="0dp"
                     android:layout_weight=".5"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"></android.support.v7.widget.AppCompatSpinner>
 
             </LinearLayout>
 
@@ -171,14 +172,14 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textSize="20sp" />
 
-                <Spinner
+                <android.support.v7.widget.AppCompatSpinner
                     android:id="@+id/spinner_away_creategame"
                     android:layout_width="156dp"
                     android:layout_height="0dp"
                     android:layout_gravity="right"
                     android:layout_weight=".5"
                     android:gravity="right"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"></android.support.v7.widget.AppCompatSpinner>
 
             </LinearLayout>
         </LinearLayout>

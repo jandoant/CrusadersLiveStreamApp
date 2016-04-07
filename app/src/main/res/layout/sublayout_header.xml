@@ -47,7 +47,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tv_team_away_gamedetail"
+            android:id="@+id/tv_team_home_gamedetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -55,42 +55,25 @@
             android:layout_marginRight="9dp"
             android:gravity="left"
             android:text="MVG"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/tv_punkte_home_gamedetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="18"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/tv_standing_gamedetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text=" - "
+            android:text="18 - 24"
             android:textSize="20sp"
             android:textStyle="bold">
 
         </TextView>
 
-        <TextView
-            android:id="@+id/tv_punkte_away_gamedetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="24"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
 
         <TextView
-            android:id="@+id/tv_team_home_gamedetail"
+            android:id="@+id/tv_team_away_gamedetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -98,7 +81,7 @@
             android:layout_marginStart="11dp"
             android:gravity="right"
             android:text="RSF"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:textStyle="bold">
 
         </TextView>

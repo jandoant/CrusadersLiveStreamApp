@@ -34,6 +34,7 @@ public class Game {
 
     /**
      * Erstellt ein neues Spiel
+     *
      * @param gameDate
      * @param gameTime
      * @param awayTeam
@@ -152,9 +153,24 @@ public class Game {
         return "#" + homeTeam.getAbkuerzung() + awayTeam.getAbkuerzung();
     }
 
+    public String generateGameStanding() {
+        String strPunkteHome;
+        String strPunkteAway;
 
+        if (aktuellePunkteHome < 10) {
+            strPunkteHome = "0" + aktuellePunkteHome;
+        } else {
+            strPunkteHome = String.valueOf(aktuellePunkteHome);
+        }
 
+        if (aktuellePunkteAway < 10) {
+            strPunkteAway = "0" + aktuellePunkteAway;
+        } else {
+            strPunkteAway = String.valueOf(aktuellePunkteAway);
+        }
 
+        return strPunkteHome + " - " + strPunkteAway;
+    }
 
 
 }
