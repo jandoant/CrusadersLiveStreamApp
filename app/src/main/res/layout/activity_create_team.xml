@@ -61,6 +61,26 @@
                 android:gravity="right"
                 android:spinnerMode="dialog"></Spinner>
 
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_chemnitz_true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="Chemnitz" />
+
+                <RadioButton
+                    android:id="@+id/radio_chemnitz_false"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="nicht Chemnitz" />
+            </RadioGroup>
+
             <Button
                 android:id="@+id/btn_createteam"
                 android:layout_width="wrap_content"

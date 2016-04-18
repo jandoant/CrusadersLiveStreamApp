@@ -50,8 +50,8 @@ public class LiveStreamDB extends SQLiteOpenHelper {
     private final String COLUMN_GAME_PLACE = "gameplace";
     private final String COLUMN_GAME_AWAYTEAM = "awayteam_id";
     private final String COLUMN_GAME_HOMETEAM = "hometeam_id";
-    private final String COLUMN_GAME_RESULT_HOME = "result_away";
-    private final String COLUMN_GAME_RESULT_AWAY = "result_home";
+    private final String COLUMN_GAME_RESULT_HOME = "result_home";
+    private final String COLUMN_GAME_RESULT_AWAY = "result_away";
     private final String COLUMN_GAME_QUARTER = "gamequarter";
     private final String COLUMN_GAME_TIMESTAMP = "timestamp_game";
     //--CREATE Games
@@ -72,11 +72,13 @@ public class LiveStreamDB extends SQLiteOpenHelper {
     private final String COLUMN_TEAM_NAME = "name";
     private final String COLUMN_TEAM_ABKUERZUNG = "abkuerzung";
     private final String COLUMN_TEAM_ALTERSKLASSE = "altersklasse";
+    private final String COLUMN_TEAM_ISCHEMNITZ = "bool_is_chemnitz";
     //--CREATE Teams
     private final String QUERY_CREATE_TABLE_TEAMS = "CREATE TABLE IF NOT EXISTS " + TABLE_TEAMS + "(" +
             COLUMN_TEAM_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ," +
             COLUMN_TEAM_NAME + " TEXT ," +
             COLUMN_TEAM_ABKUERZUNG + " TEXT ," +
+            COLUMN_TEAM_ISCHEMNITZ + " INTEGER ," +
             COLUMN_TEAM_ALTERSKLASSE + " INTEGER " +
             ");";
 
@@ -158,6 +160,12 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         values.put(COLUMN_TEAM_NAME, team.getName());
         values.put(COLUMN_TEAM_ABKUERZUNG, team.getAbkuerzung());
         values.put(COLUMN_TEAM_ALTERSKLASSE, team.getAltersklasse());
+
+        if (team.isChemnitzTeam()) {
+            values.put(COLUMN_TEAM_ISCHEMNITZ, 1);
+        } else if (!team.isChemnitzTeam()) {
+            values.put(COLUMN_TEAM_ISCHEMNITZ, 0);
+        }
 
         //--Daten in TABELLE_TEAMS einfügen
         SQLiteDatabase db = getWritableDatabase();
@@ -244,6 +252,8 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         myGame.setHomeTeam(getTeamFromDbByID(homeTeamId));
         int awayTeamId = myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_AWAYTEAM));
         myGame.setAwayTeam(getTeamFromDbByID(awayTeamId));
+        //--Quarter
+        myGame.setQuarter(myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_QUARTER)));
         //--Aktueller Punktestand
         myGame.setAktuellePunkteHome(myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_RESULT_HOME)));
         myGame.setAktuellePunkteAway(myCursor.getInt(myCursor.getColumnIndex(COLUMN_GAME_RESULT_AWAY)));
@@ -264,7 +274,13 @@ public class LiveStreamDB extends SQLiteOpenHelper {
         myTeam.setAbkuerzung(myCursor.getString(myCursor.getColumnIndex(COLUMN_TEAM_ABKUERZUNG)));
         //--Altersklasse
         myTeam.setAltersklasse(myCursor.getInt(myCursor.getColumnIndex(COLUMN_TEAM_ALTERSKLASSE)));
-
+        //ChemnitzTeam?
+        int isChemnitzTeam = myCursor.getInt(myCursor.getColumnIndex(COLUMN_TEAM_ISCHEMNITZ));
+        if (isChemnitzTeam == 0) {
+            myTeam.setChemnitzTeam(false);
+        } else if (isChemnitzTeam == 1) {
+            myTeam.setChemnitzTeam(true);
+        }
     }
 
 
@@ -295,13 +311,37 @@ public class LiveStreamDB extends SQLiteOpenHelper {
 
     public void updateGameQuarterInDB(Game myGame) {
         SQLiteDatabase db = getWritableDatabase();
-        String query = "UPDATE " + TABLE_GAMES +
-                " SET " + COLUMN_GAME_QUARTER + " = " + myGame.getQuarter() +
-                " WHERE " + COLUMN_GAME_ID + " = " + myGame.get_id();
 
-        db.execSQL(query);
+        ContentValues updateValues = new ContentValues();
+        updateValues.put("GameQuarter", myGame.getQuarter());
+        db.update(TABLE_GAMES, updateValues, COLUMN_GAME_ID + " = " + myGame.get_id(), null);
+        Log.d(TAG, CLASS_NAME + " Update durchgeführt " + myGame.getQuarter());
+        backupDB();
         db.close();
     }
+
+    public void updatePunkteHomeinDB(Game myGame) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_GAMES +
+                " SET " + COLUMN_GAME_RESULT_HOME + " = " + myGame.getAktuellePunkteHome() +
+                " WHERE " + COLUMN_GAME_ID + " = " + myGame.get_id();
+        db.execSQL(query);
+        backupDB();
+        db.close();
+    }
+
+    public void updatePunkteAwayinDB(Game myGame) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "UPDATE " + TABLE_GAMES +
+                " SET " + COLUMN_GAME_RESULT_AWAY + " = " + myGame.getAktuellePunkteAway() +
+                " WHERE " + COLUMN_GAME_ID + " = " + myGame.get_id();
+        db.execSQL(query);
+        backupDB();
+        db.close();
+    }
+
 
 
     private void backupDB() {

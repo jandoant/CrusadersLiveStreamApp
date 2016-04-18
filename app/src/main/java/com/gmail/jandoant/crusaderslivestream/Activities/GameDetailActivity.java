@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,9 +18,13 @@ import com.gmail.jandoant.crusaderslivestream.Fragments.OffenseFragment;
 import com.gmail.jandoant.crusaderslivestream.Fragments.SpecialteamsFragment;
 import com.gmail.jandoant.crusaderslivestream.R;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
+import com.gmail.jandoant.crusaderslivestream.Spiel.Play;
+import com.gmail.jandoant.crusaderslivestream.Spiel.Team;
 
-public class GameDetailActivity extends AppCompatActivity implements KickoffFragment.OnKickoffButtonClickListener {
+public class GameDetailActivity extends AppCompatActivity implements KickoffFragment.OnKickoffButtonClickListener, OffenseFragment.OnOffenseTweetClickListener {
 
+    private static final String TAG = "LiveStream";
+    private static final String CLASS_NAME = "GameDetailActivity";
     public TextView tv_gamedate;
     public TextView tv_quarter;
     //--Gegner
@@ -37,6 +42,9 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
     Bundle extras;
     ViewPagerAdapter adapter;
     KickoffFragment kickoffFragment = new KickoffFragment();
+    Team homeTeam;
+    Team awayTeam;
+    Team chemnitzTeam;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -60,6 +68,7 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
         //Aktuellstest Game-Objekt aus DB erstellen und UI mit diesen Daten aktualisieren
         myGame = db.getGameFromDbByID(gameID);
         updateUI(myGame);
+        Log.d(TAG, CLASS_NAME + ": onResume, updateUI " + myGame.getQuarter());
     }
 
     private void setUpUI() {
@@ -140,5 +149,32 @@ public class GameDetailActivity extends AppCompatActivity implements KickoffFrag
         String tweet = null;
         tweet = "KICKOFF beim FootballSpiel " + myGame.getHomeTeam().getName() + " gegen " + myGame.getAwayTeam().getName() + "!" + " Verfolge das Spiel bei Twitter oder Facebook unter dem Hashtag " + myGame.generateGameHashtag();
         return tweet;
+    }
+
+    @Override
+    public void onOffenseTweetClick(View view, Play myPlay) {
+        //Todo:Play auswerten für Chemnitz Team
+
+        if (myGame.getHomeTeam().isChemnitzTeam()) {
+            myGame.setAktuellePunkteHome(myGame.getAktuellePunkteHome() + 6);
+            db.updatePunkteHomeinDB(myGame);
+            updateUI(myGame);
+        }
+
+        if (myGame.getAwayTeam().isChemnitzTeam()) {
+            myGame.setAktuellePunkteAway(myGame.getAktuellePunkteAway() + 6);
+            db.updatePunkteAwayinDB(myGame);
+            updateUI(myGame);
+        }
+
+
+
+
+
+
+
+
+
+
     }
 }

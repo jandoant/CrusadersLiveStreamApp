@@ -27,5 +27,8 @@
     <!-- AMBER -->
     <color name="amberA700">#FFAB00</color>
 
+    <!-- GREEN -->
+    <color name="greenA400">#00E676</color>
+
 
 </resources>

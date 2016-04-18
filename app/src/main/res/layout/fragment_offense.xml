@@ -2,19 +2,98 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:orientation="vertical"
     tools:context="com.gmail.jandoant.crusaderslivestream.Fragments.OffenseFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_alignParentLeft="false"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:text="OFFENSE"
         android:textSize="56sp"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutOffense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView3"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout_touchdown_offense"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_td_offense"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:text="Touchdown" />
+
+            <LinearLayout
+                android:id="@+id/container_sublayout_td_offense"
+                android:layout_width="249dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_fieldgoal_offense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_fg_offense"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:text="Field Goal" />
+
+            <include layout="@layout/sublayout_fieldgoal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout_ballverlust_offense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="4dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_bv_offense"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:text="Ballverlust" />
+
+            <include layout="@layout/sublayout_ballverlust" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </RelativeLayout>

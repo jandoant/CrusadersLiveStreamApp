@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        //ToDO: RecyclerView Games wieder korrekt anzeigen
         //RecyclerView
         rv_gamecards = (RecyclerView) findViewById(R.id.rv_gamecards);
         //--LayoutManager
@@ -121,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gameListAdapter = new GameListAdapter(gameArrayList);
         rv_gamecards.setAdapter(gameListAdapter);
     }
-
 
     @Override
     public void onClick(View v) {

@@ -21,6 +21,7 @@ import com.gmail.jandoant.crusaderslivestream.Adapter.OpponentsSpinnerAdapter;
 import com.gmail.jandoant.crusaderslivestream.Datenbank.LiveStreamDB;
 import com.gmail.jandoant.crusaderslivestream.R;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Game;
+import com.gmail.jandoant.crusaderslivestream.Spiel.Liga;
 import com.gmail.jandoant.crusaderslivestream.Spiel.Team;
 
 import org.joda.time.DateTime;
@@ -48,6 +49,7 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
     ArrayAdapter spinnerOpponentsAdapter;
     ArrayAdapter<CharSequence> spinnerToolbarAdapter;
     //Teams
+    Liga liga;
     Team teamAway;
     Team teamHome;
     ArrayList<Team> opponents;
@@ -68,8 +70,8 @@ public class CreateGameActivity extends AppCompatActivity implements View.OnClic
         spinnerCounter = 0;
         //Datenbankzugriff herstellen
         db = new LiveStreamDB(this);
-
-
+        //Ligadaten für Spinner
+        liga = new Liga();
         //UI
         setUpUI();
         gameTime = null;

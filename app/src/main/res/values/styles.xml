@@ -12,5 +12,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="PassButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/pinkA400</item>
+    </style>
+
+    <style name="RunButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlHighlight">@color/greenA400</item>
+    </style>
+
 
 </resources>

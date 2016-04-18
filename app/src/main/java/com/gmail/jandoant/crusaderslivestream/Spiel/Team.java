@@ -12,7 +12,7 @@ public class Team {
     private String name;
     private String abkuerzung;
     private int altersklasse;
-
+    private boolean isChemnitzTeam;
 
     public Team() {
     }
@@ -20,6 +20,14 @@ public class Team {
     public Team(String name, String abkuerzung) {
         this.abkuerzung = abkuerzung;
         this.name = name;
+    }
+
+    public boolean isChemnitzTeam() {
+        return isChemnitzTeam;
+    }
+
+    public void setChemnitzTeam(boolean chemnitzTeam) {
+        isChemnitzTeam = chemnitzTeam;
     }
 
     public String getAbkuerzung() {

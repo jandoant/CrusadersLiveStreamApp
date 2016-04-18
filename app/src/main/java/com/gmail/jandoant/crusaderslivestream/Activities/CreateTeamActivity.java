@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.gmail.jandoant.crusaderslivestream.Spiel.Team;
 public class CreateTeamActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     EditText et_name, et_abk;
+    RadioButton radio_chemnitz_true, radio_chemnitz_false;
     Spinner spinner;
     LiveStreamDB db;
     int altersklasse;
@@ -37,7 +39,9 @@ public class CreateTeamActivity extends AppCompatActivity implements AdapterView
         //EditTextes
         et_name = (EditText) findViewById(R.id.et_name_createteam);
         et_abk = (EditText) findViewById(R.id.et_abkuerzung_createteam);
-
+        //RadioButtons
+        radio_chemnitz_true = (RadioButton) findViewById(R.id.radio_chemnitz_true);
+        radio_chemnitz_false = (RadioButton) findViewById(R.id.radio_chemnitz_false);
         //Spinner
         spinner = (Spinner) findViewById(R.id.spinner_alter_createteam);
         //--Array Adapter mit Daten füllen
@@ -103,6 +107,12 @@ public class CreateTeamActivity extends AppCompatActivity implements AdapterView
         myTeam.setName(et_name.getText().toString());
         myTeam.setAbkuerzung(et_abk.getText().toString());
         myTeam.setAltersklasse(altersklasse);
+        if (radio_chemnitz_true.isChecked()) {
+            myTeam.setChemnitzTeam(true);
+        } else if (radio_chemnitz_false.isChecked()) {
+            myTeam.setChemnitzTeam(false);
+        }
+
         db.addTeam(myTeam);
 
     }
